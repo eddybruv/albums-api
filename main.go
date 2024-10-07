@@ -23,6 +23,7 @@ func main() {
 	//routes
 	router.GET("/albums", handlers.GetAlbums)
 	router.GET("/albums/:artist", handlers.GetAlbumsByArtist)
+	router.POST("/albums", handlers.PostAlbum)
 
 	err := router.Run("localhost:8080")
 	if err != nil {
