@@ -68,6 +68,21 @@ func GetAlbumsByArtist(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
 }
 
+func PostAlbum(c *gin.Context) {
+	var album models.Album
+
+	if err := c.BindJSON(&album); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	_, err := db.DB.Query("INSERT into album (title, artist, price) values (?, ?, ?)", album.Title, album.Artist, album.Price)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Album added", "album": album})
+}
+
 //if err := c.BindJSON(&newAlbum); err != nil {
 //return
 //}
